@@ -1,0 +1,10 @@
+<!--index_driver.wxml-->
+<form bindsubmit="onSubmit">
+  <input name="inputTruckID" placeholder="车牌号" />
+  <input name="inputPhone" placeholder="手机号" />
+  <input name="inputFName" placeholder="贵姓" />
+  <button form-type="submit">保存</button>
+</form>
+
+
+

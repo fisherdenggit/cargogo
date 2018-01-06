@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "test/indexMine",
+    "cargogo/index_driver"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#ffffff",
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "叮叮货运",
+    "backgroundColor": "#eeeeee",
+    "backgroundTextStyle": "light",
+    "enablePullDownRefresh": false
+  }
+}
