@@ -71,6 +71,25 @@ Page({
     var phone=e.detail.value["inputPhone"]
     var fName = e.detail.value["inputFName"]
     console.log(truckID+"/"+phone+"/"+fName)
+    wx.request({
+      //url: 'http://localhost:57499/odata/trucks(\''+truckID+'\')',
+      url: 'http://localhost:57499/odata/trucks',
+      method:'POST',
+      header: { 'content-type': 'application/json' },
+      data: {
+        //FromODataUri: truckID,
+        //Truck:{
+           TruckID:truckID,
+           TruckType:'car',
+           Driver1Name:fName,
+           Driver1MPhone:phone
+         //}
+      },
+      success:function(res)
+      {
+        console.log(res)
+      }
+    })
     wx.chooseAddress({
       success: function (res) {
         console.log(res.userName)
