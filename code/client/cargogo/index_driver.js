@@ -71,10 +71,14 @@ Page({
     var phone=e.detail.value["inputPhone"]
     var fName = e.detail.value["inputFName"]
     console.log(truckID+"/"+phone+"/"+fName)
+    var that=this
     wx.request({
-      //url: 'http://localhost:57499/odata/trucks(\''+truckID+'\')',
-      url: 'http://localhost:57499/odata/trucks',
-      method:'POST',
+      //url: 'http://localhost:57499/odata/trucks',
+      url: 'http://localhost:57499/odata/trucks(\''+truckID+'\')', 
+      //method:'POST',//增
+      //method:'DELETE',//删
+      method:'GET',//查
+      //method:'PUT',//改
       header: { 'content-type': 'application/json' },
       data: {
         //FromODataUri: truckID,
@@ -87,10 +91,17 @@ Page({
       },
       success:function(res)
       {
+        that.setData(
+          { 
+            returnPhone: res.data["Driver1MPhone"],
+            returnName: res.data["Driver1Name"]
+          }
+        )
         console.log(res)
+        console.log(res.data["Driver1MPhone"])
       }
     })
-    wx.chooseAddress({
+    /*wx.chooseAddress({
       success: function (res) {
         console.log(res.userName)
         console.log(res.postalCode)
@@ -101,6 +112,6 @@ Page({
         console.log(res.nationalCode)
         console.log(res.telNumber)
       }
-    })
+    })*/
   }
 })
