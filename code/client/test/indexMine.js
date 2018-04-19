@@ -1,4 +1,6 @@
 // indexMine.js
+var openID=null
+var loginCode=null
 Page({
 
   /**
@@ -94,34 +96,66 @@ Page({
       inputTester:e.detail.value["inputTruckID"]
     })
 
-    wx.login({
-      success:function(res){
-        console.log("wx.login()成功")
-        console.log("this is loignSuccess.code: "+res.code)
-        var js_code = res.code
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx7e6c11974fbb3699&secret=a2af134685148f465721879f6ceab094&js_code=' + js_code + '&grant_type=authorization_code',
+    wx.checkSession({
+      success: function (res) {
+        console.log("wx.checkSession()成功")
+        console.log("this is openId: "+openID)
+        if(openID==null)
+        {
+          wx.login({
+            success: function (res) {
+              console.log("wx.login()成功在session非空")
+              loginCode = res.code
+              console.log("this is loignSuccess.code在session非空: " + loginCode)
+            },
+            fail: function (res) {
+              console.log("wx.login()失败在session非空")
+            }
+          })
+
+          wx.request({
+            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx7e6c11974fbb3699&secret=a2af134685148f465721879f6ceab094&js_code=' + loginCode + '&grant_type=authorization_code',
+            success: function (res) {
+              console.log("this is sessionKey在session非空: " + res.data["session_key"])
+              openID = res.data.openid
+              console.log("this is openId在session非空: " + openID)
+            },
+            fail: function (res) {
+              console.log("换取登录令牌失败")
+            }
+          })
+        }
+      },
+      fail: function (res) {
+        console.log("wx.checkSession()失败")
+        wx.login({
           success: function (res) {
-            console.log("this is sessionKey: "+res.data["session_key"])
+            console.log("wx.login()成功")
+            loginCode = res.code
+            console.log("this is loignSuccess.code: " + loginCode)
+          },
+          fail: function (res) {
+            console.log("wx.login()失败")
+          }
+        })
+
+        wx.request({
+          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx7e6c11974fbb3699&secret=a2af134685148f465721879f6ceab094&js_code=' + loginCode + '&grant_type=authorization_code',
+          success: function (res) {
+            console.log("this is sessionKey: " + res.data["session_key"])
+            openID = res.data.openid
+            console.log("this is openId: " + openID)
           },
           fail: function (res) {
             console.log("换取登录令牌失败")
           }
         })
-      },
-      fail:function(res){
-        console.log("wx.login()失败")
       }
     })
 
-    wx.checkSession({
-      success:function(res){
-        console.log("wx.checkSession()成功")
-      },
-      fail:function(res){
-        console.log("wx.checkSession()失败")
-      }
-    })
+    
+    
+    
 
     console.log(wx.getUserInfo({
       success: function (res) {
@@ -153,7 +187,7 @@ Page({
         console.log(res.data["value"])
         console.log(res.data["value"][0])
         console.log(res.data["value"][0].TruckID)
-        //return res.data["value"][0].TruckID.toString()
+        console.log("this is openId: " + openID)//用以显示第一次登录未有session时的状态
       }
     })
     
