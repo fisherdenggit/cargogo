@@ -12,6 +12,7 @@ using System.Web.Http.ModelBinding;
 using System.Web.Http.OData;
 using System.Web.Http.OData.Routing;
 using CargoGo.Models;
+using CargoGo.Util;
 
 namespace CargoGo.Controllers
 {
@@ -40,6 +41,16 @@ namespace CargoGo.Controllers
         [EnableQuery]
         public SingleResult<Truck> GetTruck([FromODataUri] string key)
         {
+            /*此部分为重新改写*/
+            String weChatAPPID = "wx7e6c11974fbb3699";
+            String weChatSecretString = "a2af134685148f465721879f6ceab094";
+            String weChatLoginCode = Request.GetQueryNameValuePairs().ElementAt(0).Value;
+            WeChatTool wct = new WeChatTool(weChatAPPID,weChatSecretString);
+            wct.WeChatLoginCode = weChatLoginCode;
+            wct.TencentWeChatAPIUrlForCheckLogin = "https://api.weixin.qq.com/sns/jscode2session";
+            wct.LoadOpenID();
+            /*此部分为重新改写*/
+
             return SingleResult.Create(db.Trucks.Where(truck => truck.TruckID == key));
         }
 
