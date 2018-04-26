@@ -42,16 +42,39 @@ namespace CargoGo.Controllers
         public SingleResult<Truck> GetTruck([FromODataUri] string key)
         {
             /*此部分为重新改写*/
-            String weChatAPPID = "wx7e6c11974fbb3699";
-            String weChatSecretString = "a2af134685148f465721879f6ceab094";
-            String weChatLoginCode = Request.GetQueryNameValuePairs().ElementAt(0).Value;
-            WeChatTool wct = new WeChatTool(weChatAPPID,weChatSecretString);
-            wct.WeChatLoginCode = weChatLoginCode;
-            wct.TencentWeChatAPIUrlForCheckLogin = "https://api.weixin.qq.com/sns/jscode2session";
-            wct.LoadOpenID();
+            Boolean weChatLoginResult = false;
+            try
+            {
+                String weChatAPPID = "wx7e6c11974fbb3699";
+                String weChatSecretString = "a2af134685148f465721879f6ceab094";
+                String weChatLoginCode = Request.GetQueryNameValuePairs().ElementAt(0).Value;
+                String weChatNickName = Request.GetQueryNameValuePairs().ElementAt(1).Value;
+                WeChatTool wct = new WeChatTool(weChatAPPID, weChatSecretString);
+                wct.WeChatLoginCode = weChatLoginCode;
+                wct.TencentWeChatAPIUrlForCheckLogin = "https://api.weixin.qq.com/sns/jscode2session";
+                weChatLoginResult = wct.LoadOpenID();
+                wct.LoadNickName(weChatNickName);
+                if(weChatLoginResult)
+                {
+                    wct.SaveOpenIDandNickName(wct.OpenID, wct.NickName);
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
             /*此部分为重新改写*/
 
-            return SingleResult.Create(db.Trucks.Where(truck => truck.TruckID == key));
+            //针对从微信小程序平台发起的请求并成功从微信小程序登录服务器换取登录令牌并获取到openId的用户，返回对应检索值
+            if(weChatLoginResult)
+            {
+                return SingleResult.Create(db.Trucks.Where(truck => truck.TruckID == key));
+            }
+            //此处对非从微信小程序平台发起的请求一律返回空值
+            else
+            {
+                return SingleResult.Create(db.Trucks.Where(truck => truck.TruckID == null));
+            }
         }
 
         // PUT: odata/Trucks(5)

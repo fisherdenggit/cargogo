@@ -17,7 +17,10 @@ namespace CargoGo.Models
         }
 
         public int ID { get; set; }
-        public string MyUserName { get; set; }    
+
+        public string MyWeChatUserOpenID { get; set; }
+
+        public string MyWeChatUserNickName { get; set; }    
         public string MobileNumber { get; set; }
     }
 }

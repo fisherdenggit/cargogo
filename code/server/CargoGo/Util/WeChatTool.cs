@@ -3,15 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Net;
+using CargoGo.Models;
 
 namespace CargoGo.Util
 {
     public class WeChatTool
     {
-
+        private string nickName;
         private string openID;
-        private string SessionKey;
+        private string sessionKey;
         public string OpenID { get { return openID; } }
+
+        public string NickName { get { return nickName; } }
         
         public string TencentWeChatAPIUrlForCheckLogin { get; set; }
 
@@ -25,6 +28,7 @@ namespace CargoGo.Util
 
         public WeChatTool()
         {
+            nickName = "-1";
             openID = "-1";
             this.WeChatGrantType = "authorization_code";//此处假定微信小程序平台的登录服务器对换取登录令牌的此参数值长期不变
         }
@@ -87,6 +91,49 @@ namespace CargoGo.Util
             }
             return result;
             
+        }
+
+        public bool LoadNickName(String queryStringNickName)
+        {
+            Boolean result = false;
+            if(!this.openID.Equals("-1"))
+            {
+                this.nickName = queryStringNickName;
+                result = true;
+            }
+            return result;
+        }
+
+        public bool SaveOpenIDandNickName(String openId,String nickName)
+        {
+            Boolean result = false;
+            try
+            {
+                MyDBContext conn = new MyDBContext();
+                MyUser tempUser = new MyUser();
+                tempUser.MyWeChatUserOpenID = openId;
+                tempUser.MyWeChatUserNickName = nickName;
+                List<MyUser> myUsers = conn.MyUsers.ToList();
+                Boolean openIDExist = false;
+                for (int i=0;i<myUsers.Count();i++)
+                {
+                    if(tempUser.MyWeChatUserOpenID.Equals(myUsers[i].MyWeChatUserOpenID))
+                    {
+                        openIDExist = true;
+                    }
+                }
+                if (!openIDExist)
+                {
+                    conn.MyUsers.Add(tempUser);
+                    conn.SaveChanges();
+                    result = true;
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            return result;
         }
     }
 }
