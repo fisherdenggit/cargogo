@@ -22,5 +22,7 @@ namespace CargoGo.Models
 
         public string MyWeChatUserNickName { get; set; }    
         public string MobileNumber { get; set; }
+
+        public int Permission { get; set; }
     }
 }

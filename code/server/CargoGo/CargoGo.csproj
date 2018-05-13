@@ -156,6 +156,30 @@
     <Compile Include="Migrations\201804261317356_MyUserMigration5.Designer.cs">
       <DependentUpon>201804261317356_MyUserMigration5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805100702560_MyUserMigration6.cs" />
+    <Compile Include="Migrations\201805100702560_MyUserMigration6.Designer.cs">
+      <DependentUpon>201805100702560_MyUserMigration6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100718081_MyUserMigration7.cs" />
+    <Compile Include="Migrations\201805100718081_MyUserMigration7.Designer.cs">
+      <DependentUpon>201805100718081_MyUserMigration7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100719108_MyUserMigration8.cs" />
+    <Compile Include="Migrations\201805100719108_MyUserMigration8.Designer.cs">
+      <DependentUpon>201805100719108_MyUserMigration8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100720448_MyUserMigration9.cs" />
+    <Compile Include="Migrations\201805100720448_MyUserMigration9.Designer.cs">
+      <DependentUpon>201805100720448_MyUserMigration9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100723271_MyUserMigration10.cs" />
+    <Compile Include="Migrations\201805100723271_MyUserMigration10.Designer.cs">
+      <DependentUpon>201805100723271_MyUserMigration10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805100724065_MyUserMigration11.cs" />
+    <Compile Include="Migrations\201805100724065_MyUserMigration11.Designer.cs">
+      <DependentUpon>201805100724065_MyUserMigration11.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Company.cs" />
     <Compile Include="Models\MyDBContext.cs" />
@@ -197,6 +221,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804261317356_MyUserMigration5.resx">
       <DependentUpon>201804261317356_MyUserMigration5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100702560_MyUserMigration6.resx">
+      <DependentUpon>201805100702560_MyUserMigration6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100718081_MyUserMigration7.resx">
+      <DependentUpon>201805100718081_MyUserMigration7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100719108_MyUserMigration8.resx">
+      <DependentUpon>201805100719108_MyUserMigration8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100720448_MyUserMigration9.resx">
+      <DependentUpon>201805100720448_MyUserMigration9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100723271_MyUserMigration10.resx">
+      <DependentUpon>201805100723271_MyUserMigration10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805100724065_MyUserMigration11.resx">
+      <DependentUpon>201805100724065_MyUserMigration11.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

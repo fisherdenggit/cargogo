@@ -11,10 +11,13 @@ namespace CargoGo.Util
     {
         private string nickName;
         private string openID;
-        private string sessionKey;
+        private int permission;//用户操作权限，默认为0，只能浏览最基本的发货信息
+        //private string sessionKey;
         public string OpenID { get { return openID; } }
 
         public string NickName { get { return nickName; } }
+
+        public int Permission { get { return permission; } }
         
         public string TencentWeChatAPIUrlForCheckLogin { get; set; }
 
@@ -30,6 +33,7 @@ namespace CargoGo.Util
         {
             nickName = "-1";
             openID = "-1";
+            permission = 0;
             this.WeChatGrantType = "authorization_code";//此处假定微信小程序平台的登录服务器对换取登录令牌的此参数值长期不变
         }
 
@@ -113,13 +117,16 @@ namespace CargoGo.Util
                 MyUser tempUser = new MyUser();
                 tempUser.MyWeChatUserOpenID = openId;
                 tempUser.MyWeChatUserNickName = nickName;
+                tempUser.Permission = 0;
                 List<MyUser> myUsers = conn.MyUsers.ToList();
                 Boolean openIDExist = false;
                 for (int i=0;i<myUsers.Count();i++)
                 {
                     if(tempUser.MyWeChatUserOpenID.Equals(myUsers[i].MyWeChatUserOpenID))
                     {
+                        this.permission = myUsers[i].Permission;
                         openIDExist = true;
+                        break;
                     }
                 }
                 if (!openIDExist)

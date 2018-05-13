@@ -1,4 +1,6 @@
 // index_driver.js
+var openID=null
+var nickName=null
 Page({
 
   /**
@@ -66,20 +68,71 @@ Page({
   /**获取提交表单里的数据 */
   onSubmit:function(e)
   {
-    var loginCode
+    if(openID==null)
+    {
+      var loginCode
+      /*第一次调用wx.login()，以获取openId和nickName*/
+      wx.login({
+        success:function(res){
+          /*以下为向微信小程序登录服务器换取登录令牌*/
+          loginCode=res.code
+          wx.request({
+            url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wx7e6c11974fbb3699&secret=a2af134685148f465721879f6ceab094&js_code=' + loginCode + '&grant_type=authorization_code',
+            success: function (res) {
+              console.log("this is sessionKey: " + res.data["session_key"])
+              openID = res.data.openid
+              console.log("this is openId: " + openID)
+            },
+            fail: function (res) {
+              console.log("换取登录令牌失败")
+            }
+          })
+          /*以上为向微信小程序登录服务器换取登录令牌*/
+
+          /*以下为用openId通过wx.getUserInfo()的不经用户授权方式获取用户信息中的nickName*/
+          //var nickName
+          wx.getUserInfo({
+            openIdList: ['selfOpenId'],
+            lang: 'zh_CN',
+            success: function (res) {
+              nickName = res.userInfo.nickName
+              console.log("this is the nickName: " + nickName)
+            }
+          })
+          /*以上为用openId通过wx.getUserInfo()的不经用户授权方式获取用户信息中的nickName*/
+        }
+      })
+      
+      
+      
+      /*wx.chooseAddress({
+        success: function (res) {
+          console.log(res.userName)
+          console.log(res.postalCode)
+          console.log(res.provinceName)
+          console.log(res.cityName)
+          console.log(res.countyName)
+          console.log(res.detailInfo)
+          console.log(res.nationalCode)
+          console.log(res.telNumber)
+        }
+      })*/
+    }
+    /*第二次调用wx.login()，以获取新的loginCode,并与nickName作为参数一道通过wx.request()传递给第3方服务器*/
     wx.login({
       success: function (res) {
         console.log('loginCode is:' + res.code)
-        loginCode=res.code
+        loginCode = res.code
         console.log(loginCode)
         console.log('http://localhost:57499/odata/trucks(\'' + truckID + '\')?loginCode=' + loginCode)
+
         wx.request({
           //url: 'http://localhost:57499/odata/trucks',
-          url: 'http://localhost:57499/odata/trucks(\'' + truckID + '\')?loginCode=' + loginCode,
+          url: 'http://localhost:57499/odata/trucks(\'' + truckID + '\')?loginCode=' + loginCode + '&nickName=' + nickName,
           //method:'POST',//增
           //method:'DELETE',//删
-          //method:'GET',//查，默认方法
-          method: 'PUT',//改
+          method: 'GET',//查，默认方法
+          //method: 'PUT',//改
           header: { 'content-type': 'application/json' },
           data: {
             //FromODataUri: truckID,
@@ -107,24 +160,11 @@ Page({
     })
 
     console.log(loginCode)
-    var truckID=e.detail.value["inputTruckID"]
-    var phone=e.detail.value["inputPhone"]
+    var truckID = e.detail.value["inputTruckID"]
+    var phone = e.detail.value["inputPhone"]
     var fName = e.detail.value["inputFName"]
-    console.log(truckID+"/"+phone+"/"+fName)
-    var that=this
+    console.log(truckID + "/" + phone + "/" + fName)
+    var that = this
     console.log('http://localhost:57499/odata/trucks(\'' + truckID + '\')?loginCode=' + loginCode)
-    
-    /*wx.chooseAddress({
-      success: function (res) {
-        console.log(res.userName)
-        console.log(res.postalCode)
-        console.log(res.provinceName)
-        console.log(res.cityName)
-        console.log(res.countyName)
-        console.log(res.detailInfo)
-        console.log(res.nationalCode)
-        console.log(res.telNumber)
-      }
-    })*/
   }
 })

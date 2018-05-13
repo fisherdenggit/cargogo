@@ -1,7 +1,7 @@
 {
   "pages": [
-    "test/indexMine",
-    "cargogo/index_driver"
+    "cargogo/index_driver",
+    "test/indexMine"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
