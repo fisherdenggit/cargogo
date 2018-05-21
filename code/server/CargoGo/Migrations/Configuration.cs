@@ -31,7 +31,7 @@ namespace CargoGo.Migrations
             //context.Trucks.Add(new Truck("渝B3178", "大型板车"));
             //context.Trucks.Add(new Truck("川W62945", "大型货车","关羽"));
             //context.Trucks.Add(new Truck("川W23998", "大型货车", "张飞","11011001100"));
-            context.Companies.Add(new Company { CompanyName = "攀枝花市正源科技有限责任公司" });
+            //context.Companies.Add(new Company { CompanyName = "攀枝花市正源科技有限责任公司" });
             //context.Configuration.ProxyCreationEnabled = false;
         }
     }

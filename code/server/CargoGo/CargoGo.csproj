@@ -122,8 +122,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BankAccoutsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
+    <Compile Include="Controllers\CompanyDeliveryAddressesController.cs" />
+    <Compile Include="Controllers\ContractsController.cs" />
+    <Compile Include="Controllers\DirectionsController.cs" />
+    <Compile Include="Controllers\InvoicesController.cs" />
     <Compile Include="Controllers\MyUsersController.cs" />
+    <Compile Include="Controllers\PaymentsController.cs" />
+    <Compile Include="Controllers\PaymentTypesController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SalesDetailsController.cs" />
     <Compile Include="Controllers\TrucksController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -180,10 +189,59 @@
     <Compile Include="Migrations\201805100724065_MyUserMigration11.Designer.cs">
       <DependentUpon>201805100724065_MyUserMigration11.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805190431495_BankAccountMigration.cs" />
+    <Compile Include="Migrations\201805190431495_BankAccountMigration.Designer.cs">
+      <DependentUpon>201805190431495_BankAccountMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805191056491_CompanyMigration.cs" />
+    <Compile Include="Migrations\201805191056491_CompanyMigration.Designer.cs">
+      <DependentUpon>201805191056491_CompanyMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805191420198_CompanyDeliveryAddressMigration.cs" />
+    <Compile Include="Migrations\201805191420198_CompanyDeliveryAddressMigration.Designer.cs">
+      <DependentUpon>201805191420198_CompanyDeliveryAddressMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805191451045_ContractMigration.cs" />
+    <Compile Include="Migrations\201805191451045_ContractMigration.Designer.cs">
+      <DependentUpon>201805191451045_ContractMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805201448097_DirectionMigration.cs" />
+    <Compile Include="Migrations\201805201448097_DirectionMigration.Designer.cs">
+      <DependentUpon>201805201448097_DirectionMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211345153_InvoiceMigration.cs" />
+    <Compile Include="Migrations\201805211345153_InvoiceMigration.Designer.cs">
+      <DependentUpon>201805211345153_InvoiceMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211405386_PaymentTypeMigration.cs" />
+    <Compile Include="Migrations\201805211405386_PaymentTypeMigration.Designer.cs">
+      <DependentUpon>201805211405386_PaymentTypeMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211457533_PaymentMigration.cs" />
+    <Compile Include="Migrations\201805211457533_PaymentMigration.Designer.cs">
+      <DependentUpon>201805211457533_PaymentMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211516489_ProductMigration.cs" />
+    <Compile Include="Migrations\201805211516489_ProductMigration.Designer.cs">
+      <DependentUpon>201805211516489_ProductMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805211629094_SalesDetailMigration.cs" />
+    <Compile Include="Migrations\201805211629094_SalesDetailMigration.Designer.cs">
+      <DependentUpon>201805211629094_SalesDetailMigration.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\BankAccout.cs" />
     <Compile Include="Models\Company.cs" />
+    <Compile Include="Models\CompanyDeliveryAddress.cs" />
+    <Compile Include="Models\Contract.cs" />
+    <Compile Include="Models\Direction.cs" />
+    <Compile Include="Models\Invoice.cs" />
     <Compile Include="Models\MyDBContext.cs" />
     <Compile Include="Models\MyUser.cs" />
+    <Compile Include="Models\Payment.cs" />
+    <Compile Include="Models\PaymentType.cs" />
+    <Compile Include="Models\Product.cs" />
+    <Compile Include="Models\SalesDetail.cs" />
     <Compile Include="Models\Truck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Util\WeChatTool.cs" />
@@ -239,6 +297,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805100724065_MyUserMigration11.resx">
       <DependentUpon>201805100724065_MyUserMigration11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805190431495_BankAccountMigration.resx">
+      <DependentUpon>201805190431495_BankAccountMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805191056491_CompanyMigration.resx">
+      <DependentUpon>201805191056491_CompanyMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805191420198_CompanyDeliveryAddressMigration.resx">
+      <DependentUpon>201805191420198_CompanyDeliveryAddressMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805191451045_ContractMigration.resx">
+      <DependentUpon>201805191451045_ContractMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805201448097_DirectionMigration.resx">
+      <DependentUpon>201805201448097_DirectionMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211345153_InvoiceMigration.resx">
+      <DependentUpon>201805211345153_InvoiceMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211405386_PaymentTypeMigration.resx">
+      <DependentUpon>201805211405386_PaymentTypeMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211457533_PaymentMigration.resx">
+      <DependentUpon>201805211457533_PaymentMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211516489_ProductMigration.resx">
+      <DependentUpon>201805211516489_ProductMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805211629094_SalesDetailMigration.resx">
+      <DependentUpon>201805211629094_SalesDetailMigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

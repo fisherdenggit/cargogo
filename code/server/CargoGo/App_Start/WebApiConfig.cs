@@ -24,6 +24,15 @@ namespace CargoGo
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Truck>("trucks");
             builder.EntitySet<Company>("companies");
+            builder.EntitySet<BankAccout>("bankaccounts");
+            builder.EntitySet<CompanyDeliveryAddress>("companydeliveryaddresses");
+            builder.EntitySet<Contract>("contracts");
+            builder.EntitySet<Direction>("directions");
+            builder.EntitySet<Invoice>("invoices");
+            builder.EntitySet<PaymentType>("paymenttypes");
+            builder.EntitySet<Payment>("payments");
+            builder.EntitySet<Product>("products");
+            builder.EntitySet<SalesDetail>("salesdetails");
             config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
         }
     }
