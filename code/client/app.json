@@ -1,7 +1,8 @@
 {
   "pages": [
+    "model/model_load",
     "cargogo/index_driver",
-    "test/indexMine"
+    "cargogo/test"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
