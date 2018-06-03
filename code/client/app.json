@@ -1,8 +1,9 @@
 {
   "pages": [
-    "model/model_load",
+    "models/modelLoad",
     "cargogo/index_driver",
-    "cargogo/test"
+    "cargogo/test",
+    "models/openIdLoad"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
