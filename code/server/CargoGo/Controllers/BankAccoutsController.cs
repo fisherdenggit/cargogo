@@ -33,14 +33,14 @@ namespace CargoGo.Controllers
         [EnableQuery]
         public IQueryable<BankAccout> GetBankAccouts()
         {
-            return db.BankAccounts;
+            return db.BankAccouts;
         }
 
         // GET: odata/BankAccouts(5)
         [EnableQuery]
         public SingleResult<BankAccout> GetBankAccout([FromODataUri] int key)
         {
-            return SingleResult.Create(db.BankAccounts.Where(bankAccout => bankAccout.ID == key));
+            return SingleResult.Create(db.BankAccouts.Where(bankAccout => bankAccout.ID == key));
         }
 
         // PUT: odata/BankAccouts(5)
@@ -53,7 +53,7 @@ namespace CargoGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            BankAccout bankAccout = await db.BankAccounts.FindAsync(key);
+            BankAccout bankAccout = await db.BankAccouts.FindAsync(key);
             if (bankAccout == null)
             {
                 return NotFound();
@@ -88,7 +88,7 @@ namespace CargoGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            db.BankAccounts.Add(bankAccout);
+            db.BankAccouts.Add(bankAccout);
             await db.SaveChangesAsync();
 
             return Created(bankAccout);
@@ -105,7 +105,7 @@ namespace CargoGo.Controllers
                 return BadRequest(ModelState);
             }
 
-            BankAccout bankAccout = await db.BankAccounts.FindAsync(key);
+            BankAccout bankAccout = await db.BankAccouts.FindAsync(key);
             if (bankAccout == null)
             {
                 return NotFound();
@@ -135,13 +135,13 @@ namespace CargoGo.Controllers
         // DELETE: odata/BankAccouts(5)
         public async Task<IHttpActionResult> Delete([FromODataUri] int key)
         {
-            BankAccout bankAccout = await db.BankAccounts.FindAsync(key);
+            BankAccout bankAccout = await db.BankAccouts.FindAsync(key);
             if (bankAccout == null)
             {
                 return NotFound();
             }
 
-            db.BankAccounts.Remove(bankAccout);
+            db.BankAccouts.Remove(bankAccout);
             await db.SaveChangesAsync();
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -158,7 +158,7 @@ namespace CargoGo.Controllers
 
         private bool BankAccoutExists(int key)
         {
-            return db.BankAccounts.Count(e => e.ID == key) > 0;
+            return db.BankAccouts.Count(e => e.ID == key) > 0;
         }
     }
 }

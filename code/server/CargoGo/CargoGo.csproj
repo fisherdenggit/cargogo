@@ -229,6 +229,46 @@
     <Compile Include="Migrations\201805211629094_SalesDetailMigration.Designer.cs">
       <DependentUpon>201805211629094_SalesDetailMigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806091328276_CompanyMigration1.cs" />
+    <Compile Include="Migrations\201806091328276_CompanyMigration1.Designer.cs">
+      <DependentUpon>201806091328276_CompanyMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806200641349_CompanyDeliveryAddressesMigration.cs" />
+    <Compile Include="Migrations\201806200641349_CompanyDeliveryAddressesMigration.Designer.cs">
+      <DependentUpon>201806200641349_CompanyDeliveryAddressesMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806210902504_ContractsMigration.cs" />
+    <Compile Include="Migrations\201806210902504_ContractsMigration.Designer.cs">
+      <DependentUpon>201806210902504_ContractsMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806240331288_DirectionMigration1.cs" />
+    <Compile Include="Migrations\201806240331288_DirectionMigration1.Designer.cs">
+      <DependentUpon>201806240331288_DirectionMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806240913005_InvoiceMigration1.cs" />
+    <Compile Include="Migrations\201806240913005_InvoiceMigration1.Designer.cs">
+      <DependentUpon>201806240913005_InvoiceMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806241608277_PaymentTypeMigration1.cs" />
+    <Compile Include="Migrations\201806241608277_PaymentTypeMigration1.Designer.cs">
+      <DependentUpon>201806241608277_PaymentTypeMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806270928049_PaymentMigration1.cs" />
+    <Compile Include="Migrations\201806270928049_PaymentMigration1.Designer.cs">
+      <DependentUpon>201806270928049_PaymentMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806301526173_ProductMigration1.cs" />
+    <Compile Include="Migrations\201806301526173_ProductMigration1.Designer.cs">
+      <DependentUpon>201806301526173_ProductMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807010307109_BankAccountMigration1.cs" />
+    <Compile Include="Migrations\201807010307109_BankAccountMigration1.Designer.cs">
+      <DependentUpon>201807010307109_BankAccountMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807011505252_CompanyMigration2.cs" />
+    <Compile Include="Migrations\201807011505252_CompanyMigration2.Designer.cs">
+      <DependentUpon>201807011505252_CompanyMigration2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccout.cs" />
     <Compile Include="Models\Company.cs" />
@@ -327,6 +367,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805211629094_SalesDetailMigration.resx">
       <DependentUpon>201805211629094_SalesDetailMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806091328276_CompanyMigration1.resx">
+      <DependentUpon>201806091328276_CompanyMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806200641349_CompanyDeliveryAddressesMigration.resx">
+      <DependentUpon>201806200641349_CompanyDeliveryAddressesMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806210902504_ContractsMigration.resx">
+      <DependentUpon>201806210902504_ContractsMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806240331288_DirectionMigration1.resx">
+      <DependentUpon>201806240331288_DirectionMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806240913005_InvoiceMigration1.resx">
+      <DependentUpon>201806240913005_InvoiceMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806241608277_PaymentTypeMigration1.resx">
+      <DependentUpon>201806241608277_PaymentTypeMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806270928049_PaymentMigration1.resx">
+      <DependentUpon>201806270928049_PaymentMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806301526173_ProductMigration1.resx">
+      <DependentUpon>201806301526173_ProductMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807010307109_BankAccountMigration1.resx">
+      <DependentUpon>201807010307109_BankAccountMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807011505252_CompanyMigration2.resx">
+      <DependentUpon>201807011505252_CompanyMigration2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
