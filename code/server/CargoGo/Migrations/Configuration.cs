@@ -38,14 +38,8 @@ namespace CargoGo.Migrations
             InsertContractRecords(context);
             InsertDirectionRecords(context);
             InsertInvoiceRecords(context);
-            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 1, PaymentTypeCode = "AABE", PaymentTypeDesc = "承兑汇票(银行)" });
-            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 2, PaymentTypeCode = "BAER", PaymentTypeDesc = "实物交易" });
-            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 3, PaymentTypeCode = "DEBT", PaymentTypeDesc = "欠款" });
-            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 4, PaymentTypeCode = "RECO", PaymentTypeDesc = "对账调整" });
-            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 5, PaymentTypeCode = "TRER", PaymentTypeDesc = "银行转账" });
-            context.Payments.AddOrUpdate(new Payment { ID = 1, PaymentDate = new DateTime(2016, 1, 1), PaymentDirectionCode = "IN", CompanyCode = "HZGH", PaymentTypeCode = "DEBT", PaymentAmount = -1872650, Note = "来自张婷“2016销售汇总表”》“杭州广翰”》2016年10月9日至11月30日共计8条记录1,870,300元+此前一条记录的尾款2,350元。" });
-            context.Payments.AddOrUpdate(new Payment { ID = 2, PaymentDate = new DateTime(2016, 4, 8), PaymentDirectionCode = "IN", CompanyCode = "JMAG", PaymentTypeCode = "TRER", PaymentAmount = 9802 });
-            context.Payments.AddOrUpdate(new Payment { ID = 3, PaymentDate = new DateTime(2016, 4, 8), PaymentDirectionCode = "IN", CompanyCode = "JMAG", PaymentTypeCode = "RECO", PaymentAmount = -9802, Note = "发货明细表中缺少2016年4月8日此笔货款对应的发货记录，故此调整。" });
+            InsertPaymentTypeRecords(context);
+            InsertPaymentRecords(context);
             context.Products.AddOrUpdate(new Product { ID = 1, ProductCode = "ZY6601A", ProductName = "钛钨粉", Note = "钛钨复合粉，含5%WO3，用于火电厂SCR脱硝催化剂制造。" });
             context.Products.AddOrUpdate(new Product { ID = 2, ProductCode = "ZY6601C", ProductName = "钛钨粉", Note = "钛钨复合粉，含约10%WO3，用于柴油机SCR脱硝催化剂制造。" });
             context.Products.AddOrUpdate(new Product { ID = 3, ProductCode = "ZY6602A", ProductName = "钛钨硅粉", Note = "(适用于JM公司,以前被认为是HT6602AL)：钛钨硅复合粉，含5%WO3，5%SiO2,用于柴油机SCR脱硝催化剂制造。" });
@@ -280,6 +274,37 @@ namespace CargoGo.Migrations
             context.Invoices.AddOrUpdate(new Invoice { ID = 56, InvoiceCode = "08864225", InvoiceDate = new DateTime(2017, 12, 15), InvoiceAmount = 1609221, InvoiceDirectionCode = "OUT", CompanyCode = "SHHY" });
             context.Invoices.AddOrUpdate(new Invoice { ID = 57, InvoiceCode = "08806042", InvoiceDate = new DateTime(2018, 1, 8), InvoiceAmount = 8600, InvoiceDirectionCode = "OUT", CompanyCode = "XAYC" });
             
+        }
+
+        private void InsertPaymentTypeRecords(CargoGo.Models.MyDBContext context)
+        {
+            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 1, PaymentTypeCode = "AABE", PaymentTypeDesc = "承兑汇票(银行)" });
+            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 2, PaymentTypeCode = "BAER", PaymentTypeDesc = "实物交易" });
+            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 3, PaymentTypeCode = "DEBT", PaymentTypeDesc = "欠款" });
+            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 4, PaymentTypeCode = "RECO", PaymentTypeDesc = "对账调整" });
+            context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 5, PaymentTypeCode = "TRER", PaymentTypeDesc = "银行转账" });
+        }
+
+        private void InsertPaymentRecords(CargoGo.Models.MyDBContext context)
+        {
+            System.Data.OleDb.OleDbConnection oDbConn = new System.Data.OleDb.OleDbConnection(@"provider=microsoft.ace.oledb.12.0; Data Source=D:\myGit\销售明细-攀枝花市正源科技.accdb");
+            oDbConn.Open();
+            System.Data.OleDb.OleDbDataAdapter oDDA = new System.Data.OleDb.OleDbDataAdapter(@"select * from payments order by payment_date", oDbConn);
+            System.Data.DataSet ds = new System.Data.DataSet();
+            oDDA.Fill(ds);
+            oDbConn.Close();
+            oDbConn.Dispose();
+            //String ID = ds.Tables[0].Rows[34].ItemArray.ElementAt(0).ToString();
+            //Console.WriteLine(ID);
+            for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
+            {
+                context.Payments.AddOrUpdate(new Payment { ID = counter + 1, PaymentDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1), PaymentDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), PaymentTypeCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), PaymentAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(5), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString() });
+            }
+            oDDA.Dispose();
+            ds.Dispose();
+            //context.Payments.AddOrUpdate(new Payment { ID = 1, PaymentDate = new DateTime(2016, 1, 1), PaymentDirectionCode = "IN", CompanyCode = "HZGH", PaymentTypeCode = "DEBT", PaymentAmount = -1872650, Note = "来自张婷“2016销售汇总表”》“杭州广翰”》2016年10月9日至11月30日共计8条记录1,870,300元+此前一条记录的尾款2,350元。" + ID });
+            //context.Payments.AddOrUpdate(new Payment { ID = 2, PaymentDate = new DateTime(2016, 4, 8), PaymentDirectionCode = "IN", CompanyCode = "JMAG", PaymentTypeCode = "TRER", PaymentAmount = 9802 });
+            //context.Payments.AddOrUpdate(new Payment { ID = 3, PaymentDate = new DateTime(2016, 4, 8), PaymentDirectionCode = "IN", CompanyCode = "JMAG", PaymentTypeCode = "RECO", PaymentAmount = -9802, Note = "发货明细表中缺少2016年4月8日此笔货款对应的发货记录，故此调整。" });
         }
     }
 }
