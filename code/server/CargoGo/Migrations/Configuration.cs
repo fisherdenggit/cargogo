@@ -48,6 +48,7 @@ namespace CargoGo.Migrations
             InsertPaymentTypeRecords(context, oDbConn, "payment_types", "payment_type_code");
             InsertPaymentRecords(context, oDbConn, "payments", "payment_date");
             InsertProductRecords(context, oDbConn, "products", "product_code");
+            InsertSalesDetailRecords(context, oDbConn, "sales_details", "out_date");
             oDbConn.Close();
             oDbConn.Dispose();
 
@@ -481,7 +482,16 @@ namespace CargoGo.Migrations
             //Console.WriteLine(ID);
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.Payments.AddOrUpdate(new Payment { ID = counter + 1, PaymentDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1), PaymentDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), PaymentTypeCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), PaymentAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(5), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString() });
+                context.Payments.AddOrUpdate(new Payment
+                {
+                    ID = counter + 1,
+                    PaymentDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1),
+                    PaymentDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    PaymentTypeCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(),
+                    PaymentAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(5),
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString()
+                });
             }
             ds.Dispose();
             //context.Payments.AddOrUpdate(new Payment { ID = 1, PaymentDate = new DateTime(2016, 1, 1), PaymentDirectionCode = "IN", CompanyCode = "HZGH", PaymentTypeCode = "DEBT", PaymentAmount = -1872650, Note = "来自张婷“2016销售汇总表”》“杭州广翰”》2016年10月9日至11月30日共计8条记录1,870,300元+此前一条记录的尾款2,350元。" + ID });
@@ -504,6 +514,42 @@ namespace CargoGo.Migrations
                 context.Products.AddOrUpdate(new Product { ID = counter + 1, ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), ProductName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString() });
             }
             ds.Dispose();
+        }
+
+        private void InsertSalesDetailRecords(CargoGo.Models.MyDBContext context, System.Data.OleDb.OleDbConnection oDbConn, String sourceTableName, String orderByFieldName)
+        {
+            System.Data.OleDb.OleDbDataAdapter oDDA = new System.Data.OleDb.OleDbDataAdapter(@"select * from " + sourceTableName + " order by " + orderByFieldName, oDbConn);
+            System.Data.DataSet ds = new System.Data.DataSet();
+            oDDA.Fill(ds);
+            oDDA.Dispose();
+            for(int counter=0;counter<ds.Tables[0].Rows.Count;counter++)
+            {
+                context.SalesDetails.AddOrUpdate(new SalesDetail
+                {
+                    ID = counter + 1,
+                    OutDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1),
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    ContractCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(),
+                    PricePerTon = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(5),
+                    OutWeightAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(6),
+                    ValuationPercentage = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(7),
+                    ValuationWeightAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(8),
+                    ValuationSalesAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(9),
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(10).ToString(),
+                    InvoiceBooked = (bool)ds.Tables[0].Rows[counter].ItemArray.ElementAt(11),
+                    InvoiceCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(12).ToString(),
+                    ShippingPricePerTon = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(13),
+                    ValuationShippingWeightAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(14),
+                    ShippingCost = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(15),
+                    ShippingCompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(),
+                    TruckCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(17).ToString(),
+                    TruckDriverMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(18).ToString(),
+                    Note2 = ds.Tables[0].Rows[counter].ItemArray.ElementAt(19).ToString(),
+                    ShippingCostInvoiceBooked = (bool)ds.Tables[0].Rows[counter].ItemArray.ElementAt(20),
+                    ShippingCostInvoiceCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(21).ToString()
+                });
+            }
         }
     }
 }
