@@ -75,7 +75,15 @@ namespace CargoGo.Migrations
             //oDbConn.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.BankAccouts.AddOrUpdate(new BankAccout { ID = counter + 1, CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), BankName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), BankAccount = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(5).ToString() });
+                context.BankAccouts.AddOrUpdate(new BankAccout
+                {
+                    ID = counter + 1,
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(),
+                    BankName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    BankAccount = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(),
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(5).ToString()
+                });
             }
             ds.Dispose();
             //context.BankAccouts.AddOrUpdate(new BankAccout { ID = 1, CompanyCode = "ZYKJ", BankName = "攀枝花市农村商业银行股份有限公司米易县支行", BankAccount = "13370120000005696", CurrencyCode = "CNY" });
@@ -170,11 +178,34 @@ namespace CargoGo.Migrations
                 }
                 //此处SQLSERVER数据库中对应的companies表中的ID列，从ID=9的第9行起，因为之前的删除行操作，标识种子目前为1226起，也就是物理位置的第10行对应的是ID=1226。
                 int id = counter + 1;
-                if (id > 9)
+                //if (id > 9)
+                //{
+                //    id = id + 1216;
+                //}
+                //此处SQLSERVER数据库中对应的companies表中的ID列，ID=2118的第46行,对应counter=45。
+                //if (id == 1262)
+                //{
+                //    id = 2118;
+                //}
+
+                context.Companies.AddOrUpdate(new Company
                 {
-                    id = id + 1216;
-                }
-                context.Companies.AddOrUpdate(new Company { ID = id, CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), ShortName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), FullName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), BusinessDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), PhoneNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), FaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(5).ToString(), Website = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString(), Address = ds.Tables[0].Rows[counter].ItemArray.ElementAt(7).ToString(), TaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(8).ToString(), SalesContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(9).ToString(), SalesContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(10).ToString(), SalesContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(11).ToString(), SalesContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(12).ToString(), AccountingContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(13).ToString(), AccountingContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(14).ToString(), AccountingContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(15).ToString(), AccountingContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(), TotalDeliveryAmount = totalDeliveryAmount, TotalPaymentAmount = totalPaymentAmount, TotalBalanceAmount = totalBalanceAmount, TotalUninvoiceAmount = totalUninvoiceAmount, CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(22).ToString() });
+                    ID = id,
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    ShortName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(),
+                    FullName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    BusinessDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    PhoneNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(),
+                    FaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(5).ToString(),
+                    Website = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString(),
+                    Address = ds.Tables[0].Rows[counter].ItemArray.ElementAt(7).ToString(),
+                    TaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(8).ToString(),
+                    SalesContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(9).ToString(),
+                    SalesContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(10).ToString(),
+                    SalesContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(11).ToString(),
+                    SalesContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(12).ToString(),
+                    AccountingContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(13).ToString(),
+                    AccountingContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(14).ToString(), AccountingContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(15).ToString(), AccountingContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(), TotalDeliveryAmount = totalDeliveryAmount, TotalPaymentAmount = totalPaymentAmount, TotalBalanceAmount = totalBalanceAmount, TotalUninvoiceAmount = totalUninvoiceAmount, CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(22).ToString() });
             }
             ds.Dispose();
             //context.Companies.AddOrUpdate(new Company { ID = 1, CompanyCode = "AHYC", ShortName = "安徽元琛环保科技", FullName = "安徽元琛环保科技股份有限公司", BusinessDirectionCode = "BOTH", PhoneNumber = "0551-64266332", FaxNumber = "0551-66335361", Website = "http://www.shychb.com/default.asp", Address = "中国安徽省合肥市新站高新技术产业开发区", TaxNumber = "913401007749523631" });
@@ -235,7 +266,14 @@ namespace CargoGo.Migrations
             //oDbConn.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.CompanyDeliveryAddresses.AddOrUpdate(new CompanyDeliveryAddress { ID = counter + 1, CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), CargoDeliveryAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), CargoDeliveryContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), CargoDeliveryContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString() });
+                context.CompanyDeliveryAddresses.AddOrUpdate(new CompanyDeliveryAddress
+                {
+                    ID = counter + 1,
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(),
+                    CargoDeliveryAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    CargoDeliveryContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    CargoDeliveryContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString()
+                });
             }
             ds.Dispose();
             //context.CompanyDeliveryAddresses.AddOrUpdate(new CompanyDeliveryAddress { ID = 4, CompanyCode = "HNJS", CargoDeliveryAddress = "河南鹤壁市淇滨区延河路228号河南金山环保科技工业园有限公司厂区内", CargoDeliveryContact = "董颖磊", CargoDeliveryContactMobile = "13333928191" });
@@ -282,7 +320,18 @@ namespace CargoGo.Migrations
                 {
                     Console.WriteLine(e.Message);
                 }
-                context.Contracts.AddOrUpdate(new Contract { ID = counter + 1, ContractCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), ContractDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1), CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), ContractAmount = contractAmount, ContractPrice = contractPrice, ContractExcutedAmount = contractExcutedAmount, Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(7).ToString() });
+                context.Contracts.AddOrUpdate(new Contract
+                {
+                    ID = counter + 1,
+                    ContractCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    ContractDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1),
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(),
+                    ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    ContractAmount = contractAmount,
+                    ContractPrice = contractPrice,
+                    ContractExcutedAmount = contractExcutedAmount,
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(7).ToString()
+                });
             }
             ds.Dispose();
             //context.Contracts.AddOrUpdate(new Contract { ID = 1, ContractCode = "2015年欠款", ContractDate = new DateTime(2015, 9, 24), CompanyCode = "ZJZN", ProductCode = "ZY6609A", ContractAmount = 35, ContractPrice = 11000, Note = "已付清。" });
@@ -369,7 +418,12 @@ namespace CargoGo.Migrations
             //oDbConn.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.Directions.AddOrUpdate(new Direction { ID = counter + 1, DirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), DirectionDesc = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString() });
+                context.Directions.AddOrUpdate(new Direction
+                {
+                    ID = counter + 1,
+                    DirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    DirectionDesc = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString()
+                });
             }
             ds.Dispose();
             //context.Directions.AddOrUpdate(new Direction { ID = 1, DirectionCode = "BASE", DirectionDesc = "本公司" });
@@ -386,7 +440,16 @@ namespace CargoGo.Migrations
             oDDA.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.Invoices.AddOrUpdate(new Invoice { ID = counter + 1, InvoiceCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), InvoiceDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1), InvoiceAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(2), InvoiceDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString() });
+                context.Invoices.AddOrUpdate(new Invoice
+                {
+                    ID = counter + 1,
+                    InvoiceCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    InvoiceDate = (DateTime)ds.Tables[0].Rows[counter].ItemArray.ElementAt(1),
+                    InvoiceAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(2),
+                    InvoiceDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(),
+                    CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(),
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString()
+                });
             }
             ds.Dispose();
             //context.Invoices.AddOrUpdate(new Invoice { ID = 1, InvoiceCode = "05195936", InvoiceDate = new DateTime(2017, 7, 6), InvoiceAmount = 385000, InvoiceDirectionCode = "OUT", CompanyCode = "ZJZN" });
@@ -457,7 +520,12 @@ namespace CargoGo.Migrations
             oDDA.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.PaymentTypes.AddOrUpdate(new PaymentType { ID = counter + 1, PaymentTypeCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), PaymentTypeDesc = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString() });
+                context.PaymentTypes.AddOrUpdate(new PaymentType
+                {
+                    ID = counter + 1,
+                    PaymentTypeCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    PaymentTypeDesc = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString()
+                });
             }
             ds.Dispose();
             //context.PaymentTypes.AddOrUpdate(new PaymentType { ID = 1, PaymentTypeCode = "AABE", PaymentTypeDesc = "承兑汇票(银行)" });
@@ -511,7 +579,13 @@ namespace CargoGo.Migrations
             //oDbConn.Dispose();
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
-                context.Products.AddOrUpdate(new Product { ID = counter + 1, ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), ProductName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString() });
+                context.Products.AddOrUpdate(new Product
+                {
+                    ID = counter + 1,
+                    ProductCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(),
+                    ProductName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(),
+                    Note = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString()
+                });
             }
             ds.Dispose();
         }

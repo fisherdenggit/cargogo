@@ -269,6 +269,10 @@
     <Compile Include="Migrations\201807011505252_CompanyMigration2.Designer.cs">
       <DependentUpon>201807011505252_CompanyMigration2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201908270746071_CompanyMigration3.cs" />
+    <Compile Include="Migrations\201908270746071_CompanyMigration3.Designer.cs">
+      <DependentUpon>201908270746071_CompanyMigration3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\BankAccout.cs" />
     <Compile Include="Models\Company.cs" />
@@ -397,6 +401,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201807011505252_CompanyMigration2.resx">
       <DependentUpon>201807011505252_CompanyMigration2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201908270746071_CompanyMigration3.resx">
+      <DependentUpon>201908270746071_CompanyMigration3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
