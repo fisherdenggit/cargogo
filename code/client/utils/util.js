@@ -54,6 +54,7 @@ function loadOpenId(openId,nickName){
   }
 }
 
+//根据基础数据表名称、微信昵称装载对应的基础数据表数据进results中，并将第1条记录装载进reslut中在页面中显示，that用于异步回调setData()方法绑定刷新数据
 function getFullTableDataFromODataService(serviceName,nickName,result,results,recordPosition,that){
   if (results.length == 0) 
   {
@@ -82,7 +83,43 @@ function getFullTableDataFromODataService(serviceName,nickName,result,results,re
                   //results = new Array()
                   for (var index = 0; index < res.data.value.length; index++) 
                   {
-                    var tempResult = [res.data.value[index].CompanyCode, res.data.value[index].BankName, res.data.value[index].BankAccount, res.data.value[index].CurrencyCode, res.data.value[index].Note]
+                    var tempResult=new Array()
+                    if (serviceName =='bankaccouts')
+                    {
+                      tempResult = [res.data.value[index].ID,res.data.value[index].CompanyCode, res.data.value[index].BankName, res.data.value[index].BankAccount, res.data.value[index].CurrencyCode, res.data.value[index].Note]
+                    }
+                    if (serviceName == 'companies')
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].CompanyCode, res.data.value[index].ShortName, res.data.value[index].FullName, res.data.value[index].BusinessDirectionCode, res.data.value[index].PhoneNumber, res.data.value[index].FaxNumber, res.data.value[index].Website, res.data.value[index].Address, res.data.value[index].TaxNumber, res.data.value[index].SalesContactAddress, res.data.value[index].SalesContact, res.data.value[index].SalesContactMobile, res.data.value[index].SalesContactEmail, res.data.value[index].AccountingContactAddress, res.data.value[index].AccountingContact, res.data.value[index].AccountingContactMobile, res.data.value[index].AccountingContactEmail, res.data.value[index].TotalDeliveryAmount, res.data.value[index].TotalPaymentAmount, res.data.value[index].TotalBalanceAmount, res.data.value[index].TotalUninvoiceAmount, res.data.value[index].CurrencyCode]
+                    }
+                    if (serviceName == 'companydeliveryaddresses') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].CompanyCode, res.data.value[index].CargoDeliveryAddress, res.data.value[index].CargoDeliveryContact, res.data.value[index].CargoDeliveryContactMobile]
+                    }
+                    if (serviceName == 'contracts') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].ContractCode, res.data.value[index].ContractDate, res.data.value[index].CompanyCode, res.data.value[index].ProductCode, res.data.value[index].ContractAmount, res.data.value[index].ContractPrice, res.data.value[index].ContractExcutedAmount, res.data.value[index].Note]
+                    }
+                    if (serviceName == 'directions') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].DirectionCode, res.data.value[index].DirectionDesc]
+                    }
+                    if (serviceName == 'invoices') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].InvoiceCode, res.data.value[index].InvoiceDate, res.data.value[index].InvoiceAmount, res.data.value[index].InvoiceDirectionCode, res.data.value[index].CompanyCode, res.data.value[index].Note]
+                    }
+                    if (serviceName == 'paymenttypes') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].PaymentTypeCode, res.data.value[index].PaymentTypeDesc]
+                    }
+                    if (serviceName == 'payments') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].PaymentDate, res.data.value[index].PaymentDirectionCode, res.data.value[index].CompanyCode, res.data.value[index].PaymentTypeCode, res.data.value[index].PaymentAmount, res.data.value[index].Note]
+                    }
+                    if (serviceName == 'products') 
+                    {
+                      tempResult = [res.data.value[index].ID, res.data.value[index].ProductCode, res.data.value[index].ProductName, res.data.value[index].Note]
+                    }
                     results[index] = tempResult
                   }
                   that.setData({

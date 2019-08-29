@@ -3,14 +3,18 @@
     "models/modelLoad",
     "cargogo/index_driver",
     "cargogo/test",
-    "models/openIdLoad"
+    "logs/logs",
+    "models/openIdLoad",
+    "pages/index/index",
+    "pages/logs/logs"
   ],
   "window": {
     "navigationBarBackgroundColor": "#ffffff",
     "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "叮叮货运",
+    "navigationBarTitleText": "钛白粉销售",
     "backgroundColor": "#eeeeee",
     "backgroundTextStyle": "light",
     "enablePullDownRefresh": false
-  }
+  },
+  "sitemapLocation": "sitemap.json"
 }
