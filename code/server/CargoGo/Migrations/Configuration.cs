@@ -8,10 +8,13 @@ namespace CargoGo.Migrations
 
     internal sealed class Configuration : DbMigrationsConfiguration<CargoGo.Models.MyDBContext>
     {
+        //在遍历“销售明细表”和“付款明细表”时，根据CompanyCode，计算“累计已发货金额”、“累计未开票金额”、“累计已付款金额”和“累计余款/欠款”，更新至“公司基础信息表”
+        private System.Collections.Hashtable CompanyList;
         public Configuration()
         {
             //是否自动将Model类的设计改变映射到数据库，默认false
             AutomaticMigrationsEnabled = true;
+            CompanyList=new System.Collections.Hashtable();
         }
 
         protected override void Seed(CargoGo.Models.MyDBContext context)
@@ -40,15 +43,17 @@ namespace CargoGo.Migrations
             System.Data.OleDb.OleDbConnection oDbConn = new System.Data.OleDb.OleDbConnection(@"provider=microsoft.ace.oledb.12.0; Data Source=D:\myGit\销售明细-攀枝花市正源科技.accdb");
             oDbConn.Open();
             InsertBankAccountRecrods(context, oDbConn, "bank_accounts", "company_code");
-            InsertCompanyRecords(context, oDbConn, "companies", "company_code");
+            
             InsertComapnyDeliveryAddressRecords(context, oDbConn, "companies_delivery_addresses", "company_code");
             InsertContractRecords(context, oDbConn, "contracts", "contract_date");
             InsertDirectionRecords(context, oDbConn, "directions", "direction_code");
             InsertInvoiceRecords(context, oDbConn, "invoices", "invoice_code");
             InsertPaymentTypeRecords(context, oDbConn, "payment_types", "payment_type_code");
-            InsertPaymentRecords(context, oDbConn, "payments", "payment_date");
+            
             InsertProductRecords(context, oDbConn, "products", "product_code");
             InsertSalesDetailRecords(context, oDbConn, "sales_details", "out_date");
+            InsertPaymentRecords(context, oDbConn, "payments", "payment_date");
+            InsertCompanyRecords(context, oDbConn, "companies", "company_code");
             oDbConn.Close();
             oDbConn.Dispose();
 
@@ -139,6 +144,7 @@ namespace CargoGo.Migrations
             /*以上为删除companies表中此前不正确的行*/
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
+                string tempCompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString();
                 //context.Companies.AddOrUpdate(new Company { ID = counter + 1, CompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(0).ToString(), ShortName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(1).ToString(), FullName = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString(), BusinessDirectionCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString(), PhoneNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(4).ToString(), FaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(5).ToString(), Website = ds.Tables[0].Rows[counter].ItemArray.ElementAt(6).ToString(), Address = ds.Tables[0].Rows[counter].ItemArray.ElementAt(7).ToString(), TaxNumber = ds.Tables[0].Rows[counter].ItemArray.ElementAt(8).ToString(), SalesContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(9).ToString(), SalesContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(10).ToString(), SalesContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(11).ToString(), SalesContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(12).ToString(), AccountingContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(13).ToString(), AccountingContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(14).ToString(), AccountingContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(15).ToString(), AccountingContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(), TotalDeliveryAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(17), TotalPaymentAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(18), TotalBalanceAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(19), TotalUninvoiceAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(21), CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(22).ToString() });
                 decimal totalDeliveryAmount = 0;
                 try
@@ -176,6 +182,19 @@ namespace CargoGo.Migrations
                 {
                     Console.WriteLine(e.Message);
                 }
+                //如果对应的CompanyCode已有计算出的“累计已发货金额”、“累计未开票金额”、“累计已付款金额”和“累计余款/欠款”，更新至“公司基础信息表”
+                if (CompanyList.ContainsKey(tempCompanyCode))
+                {
+                    string[] tempData = CompanyList[tempCompanyCode].ToString().Split(';');
+                    totalDeliveryAmount = Convert.ToDecimal(tempData[0]);
+                    totalUninvoiceAmount = Convert.ToDecimal(tempData[1]);
+                    if(tempData.Count()>2)
+                    {
+                        totalPaymentAmount = Convert.ToDecimal(tempData[2]);
+                    }
+                    //“累计余款/欠款”=“累计已付款金额”-“累计已发货金额”
+                    totalBalanceAmount = totalPaymentAmount - totalDeliveryAmount;
+                }
                 //此处SQLSERVER数据库中对应的companies表中的ID列，从ID=9的第9行起，因为之前的删除行操作，标识种子目前为1226起，也就是物理位置的第10行对应的是ID=1226。
                 int id = counter + 1;
                 //if (id > 9)
@@ -205,7 +224,14 @@ namespace CargoGo.Migrations
                     SalesContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(11).ToString(),
                     SalesContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(12).ToString(),
                     AccountingContactAddress = ds.Tables[0].Rows[counter].ItemArray.ElementAt(13).ToString(),
-                    AccountingContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(14).ToString(), AccountingContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(15).ToString(), AccountingContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(), TotalDeliveryAmount = totalDeliveryAmount, TotalPaymentAmount = totalPaymentAmount, TotalBalanceAmount = totalBalanceAmount, TotalUninvoiceAmount = totalUninvoiceAmount, CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(22).ToString() });
+                    AccountingContact = ds.Tables[0].Rows[counter].ItemArray.ElementAt(14).ToString(),
+                    AccountingContactMobile = ds.Tables[0].Rows[counter].ItemArray.ElementAt(15).ToString(),
+                    AccountingContactEmail = ds.Tables[0].Rows[counter].ItemArray.ElementAt(16).ToString(),
+                    TotalDeliveryAmount = totalDeliveryAmount,
+                    TotalPaymentAmount = totalPaymentAmount,
+                    TotalBalanceAmount = totalBalanceAmount,
+                    TotalUninvoiceAmount = totalUninvoiceAmount,
+                    CurrencyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(22).ToString() });
             }
             ds.Dispose();
             //context.Companies.AddOrUpdate(new Company { ID = 1, CompanyCode = "AHYC", ShortName = "安徽元琛环保科技", FullName = "安徽元琛环保科技股份有限公司", BusinessDirectionCode = "BOTH", PhoneNumber = "0551-64266332", FaxNumber = "0551-66335361", Website = "http://www.shychb.com/default.asp", Address = "中国安徽省合肥市新站高新技术产业开发区", TaxNumber = "913401007749523631" });
@@ -550,6 +576,22 @@ namespace CargoGo.Migrations
             //Console.WriteLine(ID);
             for (int counter = 0; counter < ds.Tables[0].Rows.Count; counter++)
             {
+                string tempCompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(3).ToString();
+                decimal tempPaymentAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(5);
+                //对应的CompanyCode在此前遍历“销售明细表”中存在且已计算出“累计已发货金额”、“累计未开票金额”，此处计算出“累计已付款金额”
+                if (CompanyList.ContainsKey(tempCompanyCode))
+                {
+                    string[] tempData = CompanyList[tempCompanyCode].ToString().Split(';');
+                    if(tempData.Count()==2)
+                    {
+                        CompanyList[tempCompanyCode] = CompanyList[tempCompanyCode].ToString() + ";" + tempPaymentAmount;
+                    }
+                    else
+                    {
+                        tempPaymentAmount += Convert.ToDecimal(tempData[2]);
+                        CompanyList[tempCompanyCode] = tempData[0].ToString() + ";" + tempData[1].ToString() + ";" + tempPaymentAmount.ToString();
+                    }
+                }
                 context.Payments.AddOrUpdate(new Payment
                 {
                     ID = counter + 1,
@@ -598,6 +640,29 @@ namespace CargoGo.Migrations
             oDDA.Dispose();
             for(int counter=0;counter<ds.Tables[0].Rows.Count;counter++)
             {
+                string tempCompanyCode = ds.Tables[0].Rows[counter].ItemArray.ElementAt(2).ToString();
+                //decimal tempValuationWeightAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(8);
+                decimal tempValuationSalesAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(9);
+                bool tempInvoiceBooked = (bool)ds.Tables[0].Rows[counter].ItemArray.ElementAt(11);
+                decimal tempUninvoiceSalesAmount = 0;
+                //确认此条销售记录是否已开发票，否的话确定“未开票金额”
+                if (!tempInvoiceBooked)
+                {
+                    tempUninvoiceSalesAmount = (decimal)ds.Tables[0].Rows[counter].ItemArray.ElementAt(9);
+                }
+                //确认此条销售记录的CompanyCode是否首次出现，否的话累计“累计已发货金额”、“累计未开票金额”
+                if (CompanyList.ContainsKey(tempCompanyCode))
+                {
+                    string[] tempData = CompanyList[tempCompanyCode].ToString().Split(';');
+                    //tempValuationWeightAmount += Convert.ToDecimal(tempData[0]);
+                    tempValuationSalesAmount += Convert.ToDecimal(tempData[0]);
+                    tempUninvoiceSalesAmount += Convert.ToDecimal(tempData[1]);
+                    CompanyList[tempCompanyCode] = tempValuationSalesAmount.ToString() + ";" + tempUninvoiceSalesAmount.ToString();
+                }
+                else
+                {
+                    CompanyList.Add(tempCompanyCode, tempValuationSalesAmount.ToString() + ";" + tempUninvoiceSalesAmount.ToString());
+                }
                 context.SalesDetails.AddOrUpdate(new SalesDetail
                 {
                     ID = counter + 1,
