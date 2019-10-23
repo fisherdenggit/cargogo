@@ -1,4 +1,9 @@
 <!--modelLoad.wxml-->
+<!--用以绘制统计饼图的canvas元素-->
+<block wx:if="{{index==1}}">
+  <canvas canvas-id="canvasInvoicedAmount" style="width:500px;height:200px"></canvas>
+  <canvas canvas-id="canvasPayedAmount" style="width:500px;height:200px"></canvas>
+</block>
 <form bindsubmit="onSubmit">
   <!--<text>公司代码</text>-->
   <view class="section">
@@ -10,18 +15,18 @@
     </picker>
   </view>
   <!--<block wx:if="{{index==0}}">-->
-    <block wx:for="{{tables[index].labels}}">
-      <text>{{item}}</text>
-      <input name='{{index}}' value='{{result[index]}}'></input>
-    </block>
-    <block>
-      <button name="btnLastOne" form-type="submit" bindtap='bindLastRecord'>上一条</button>
-      <button name="btnNextOne" form-type="submit" bindtap='bindNextRecord'>下一条</button>
-      <button name="btnSave" form-type="submit">保存</button>
-
-    </block>
+  <block wx:for="{{tables[index].labels}}">
+    <text>{{item}}</text>
+    <input name='{{index}}' value='{{result[index]}}'></input>
+  </block>
+  <block>
+    <button name="btnLastOne" form-type="submit" bindtap='bindLastRecord'>上一条</button>
+    <button name="btnNextOne" form-type="submit" bindtap='bindNextRecord'>下一条</button>
+    <button name="btnSave" form-type="submit">保存</button>
+  </block>
   <!--</block>-->
 </form>
+
 <!--
 <input name="inputTruckID" value="{{inputTester}}" bindconfirm="onInputConfirm" />
   <input name="inputTester" />
