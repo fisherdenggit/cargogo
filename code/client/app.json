@@ -1,11 +1,14 @@
 {
+  "cloud": true,
   "pages": [
+    "pages/index/product",
+    "pages/index/customer",
+    "pages/index/index",
     "models/modelLoad",
     "cargogo/index_driver",
     "cargogo/test",
     "logs/logs",
     "models/openIdLoad",
-    "pages/index/index",
     "pages/logs/logs"
   ],
   "window": {
